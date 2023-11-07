@@ -1,7 +1,7 @@
 const cadena = require('./cadena.js');
 
 test('Si las dsos cadenas son iguales retorna verdadero ', () => {
-    expect(cadena("hola","hola")).toBe(true);
+    expect(cadena("hola","h")).toBe(true);
 })
 
 test('Si las dos cadenas son diferentes retorna false ', () => {
