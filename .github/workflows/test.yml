@@ -3,23 +3,35 @@ name: Test
 on:
   push:
     branches:
-      - main # Reemplaza con tu rama principal
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14' # Puedes cambiar la versión de Node.js si es necesario
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
 
-      - name: Install dependencies
-        run: npm install # O yarn install si usas yarn
+    - name: Build and Test
+      run: |
+        ./gradlew build
 
-      - name: Run test
-        run: npm test # O yarn test si usas yarn
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.event.action == 'push' && success()
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to Production
+      run: |
+        git push origin main
