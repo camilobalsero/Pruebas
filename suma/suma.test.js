@@ -13,7 +13,7 @@ test('suma de 8 , 5: devuelve 13 ', () => {
 })
 
 test('suma de 90 , 1: retorna 91', () => {
-    expect(sum(90,1)).toBe(91);
+    expect(sum(90,1)).toBe(94);
 })
 
 test('suma de 1.1 , 1.2: retorna 1.3', () => {
