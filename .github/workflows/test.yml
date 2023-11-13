@@ -1,5 +1,7 @@
 name: Test
 
+name: CI/CD Pipeline
+
 on:
   push:
     branches:
@@ -34,4 +36,11 @@ jobs:
 
     - name: Deploy to Production
       run: |
-        git push origin main
+        # Verificar si las pruebas fueron exitosas
+        if ./gradlew test; then
+          # Si las pruebas fueron exitosas, entonces realizar el commit y el push
+          git push origin main
+        else
+          # Si las pruebas fallaron, imprimir un mensaje y salir sin hacer el commit
+          echo "Las pruebas fallaron. No se realizará el commit."
+        fi
