@@ -1,46 +1,30 @@
 name: Test
 
-name: CI/CD Pipeline
+
 
 on:
   push:
     branches:
-      - main
+      
+main # Reemplaza con tu rama principal
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+      
+name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up JDK
-      uses: actions/setup-java@v2
+      
+name: Use Node.js
+      uses: actions/setup-node@v2
       with:
-        distribution: 'adopt'
-        java-version: '11'
+        node-version: '14' # Puedes cambiar la versión de Node.js si es necesario
+   
+name: Install dependencies
+      run: npm install # O yarn install si usas yarn
 
-    - name: Build and Test
-      run: |
-        ./gradlew build
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.event.action == 'push' && success()
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Deploy to Production
-      run: |
-        # Verificar si las pruebas fueron exitosas
-        if ./gradlew test; then
-          # Si las pruebas fueron exitosas, entonces realizar el commit y el push
-          git push origin main
-        else
-          # Si las pruebas fallaron, imprimir un mensaje y salir sin hacer el commit
-          echo "Las pruebas fallaron. No se realizará el commit."
-        fi
+name: Run tests
+      run: npm test # O yarn test si usas yarn
